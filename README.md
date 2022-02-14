@@ -1,66 +1,34 @@
-import { deepRecreate } from "../src";
+# Object-deep-replace
 
-test('returns 1 with new value 1 and old snapshot 1', () => {
-  const result = deepRecreate(1, 1);
+This library compares inputs deeply and creates new memory references when a value or its children inside the input change, but makes sure not to create new memory references where unnecessary.
 
-  expect(result).toEqual(1);
-});
+It works by comparing 2 inputs - the new altered object/array and a previous cloned snapshot.
 
-test('returns 2 with new value 2 and old snapshot 1', () => {
-  const result = deepRecreate(2, 1);
+```ts
+import { deepRecreate } from "object-deep-recreate";
 
-  expect(result).toEqual(2);
-});
+const snapshot = [{ id: 1, name: 'Post1' }, { id: 2, name: 'Post2' }]
+const posts = JSON.parse(JSON.stringify(snapshot))
 
-test('returns same memory array [1,2] with new value [1,2] and old snapshot [1,2]', () => {
-  const oldValue = [1, 2];
-  const newValue = [1, 2];
-  const result = deepRecreate(newValue, oldValue);
+posts[0].name = 'New name'
 
-  expect(result).toEqual(newValue);
-  expect(result === newValue).toBe(true);
-});
+const result = deepRecreate(posts, snapshot);
 
-test('returns new memory array [1,2,3] with new value [1,2,3] and old snapshot [1,2]', () => {
-  const oldValue = [1, 2];
-  const newValue = [1, 2, 3];
-  const result = deepRecreate(newValue, oldValue);
+expect(result[0] === posts[0]).toBe(false); // first post is changed inside, new memory reference
+expect(result[1] === posts[1]).toBe(true); // second post stayed untouched, original memory reference
+```
+More test cases can be found below, or in the `__tests__` folder:
 
-  expect(result).toEqual(newValue);
-  expect(result === newValue).toBe(false);
-});
+---
 
-test('returns same memory object { foo: "bar" } with new value { foo: "bar" } and old snapshot { foo: "bar" }', () => {
-  const oldValue = { foo: "bar" };
-  const newValue = { foo: "bar" };
-  const result = deepRecreate(newValue, oldValue);
-
-  expect(result).toEqual(newValue);
-  expect(result === newValue).toBe(true);
-});
-
-test('returns new memory object { foo: "bar" } with new value { foo: "bar" } and old snapshot { foo: "baz" }', () => {
-  const oldValue = { foo: "baz" };
-  const newValue = { foo: "bar" };
-  const result = deepRecreate(newValue, oldValue);
-
-  expect(result).toEqual(newValue);
-  expect(result === newValue).toBe(false);
-});
-
-test('nested object', () => {
+```ts
   let oldValue = {
     posts: [
       { id: 1, name: 'Post 1' },
       { id: 2, name: 'Post 2' },
       { id: 3, name: 'Post 3' }
     ],
-    likes: [
-      {
-        id: 1,
-        count: 10
-      }
-    ]
+    likes: [{ id: 1, count: 10 }]
   };
 
   const newValue = JSON.parse(JSON.stringify(oldValue));
@@ -103,4 +71,4 @@ test('nested object', () => {
   expect(result3.posts[0].name).toEqual('New name');
 
   expect(result3.posts[1] === newValue.posts[1]).toBe(true); // second post is unchanged
-});
+```

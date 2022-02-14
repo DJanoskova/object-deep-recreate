@@ -3,7 +3,7 @@
  * @param newValue - altered in-memory data
  * @param prevValue - cloned snapshot of previous data
  */
-export function appendNewValues<T = unknown>(newValue: T, prevValue: T) {
+export function deepRecreate<T = unknown>(newValue: T, prevValue: T) {
   if (typeof newValue !== typeof prevValue) {
     console.warn('Comparing different types');
     return newValue;
@@ -30,7 +30,7 @@ export function appendNewValues<T = unknown>(newValue: T, prevValue: T) {
 
       newValue.forEach((v, index) => {
         const oldV = prevValue[index];
-        result.push(appendNewValues(v, oldV))
+        result.push(deepRecreate(v, oldV))
       })
     } else {
       // else removing or adding to array, just create a new instance
@@ -55,7 +55,7 @@ export function appendNewObjectValues<T = Record<any, unknown>>(newObject: T, pr
   Object.keys(newObject).forEach((key: any) => {
     const newValue = (newObject as any)?.[key];
     const prevValue = (prevObject as any)?.[key];
-    result[key] = appendNewValues(newValue, prevValue);
+    result[key] = deepRecreate(newValue, prevValue);
   })
 
   return result
