@@ -4,12 +4,22 @@
  * @param prevValue - cloned snapshot of previous data
  */
 export function appendNewValues<T = unknown>(newValue: T, prevValue: T) {
-  // for primitive types return right away
+  if (typeof newValue !== typeof prevValue) {
+    console.warn('Comparing different types');
+    return newValue;
+  }
+
+  // for primitive types return new value right away
   if (typeof newValue !== 'object') return newValue;
 
   if (Array.isArray(newValue)) {
     if (!Array.isArray(prevValue)) {
-      throw new Error('Comparing array with non-array');
+      console.warn('Comparing array with non-array');
+      return newValue;
+    }
+
+    if (JSON.stringify(newValue) === JSON.stringify(prevValue)) {
+      return newValue;
     }
 
     let result: any[];
