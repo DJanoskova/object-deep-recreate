@@ -1,0 +1,14 @@
+{
+  "name": "deep-object-replace",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
