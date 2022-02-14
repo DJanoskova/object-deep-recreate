@@ -1,13 +1,13 @@
-import { appendNewValues } from "./index";
+import { appendNewValues } from "../src/index";
 
 test('returns 1 with new value 1 and old snapshot 1', () => {
-  const result = appendNewValues(1, 1)
+  const result = appendNewValues(1, 1);
 
   expect(result).toEqual(1);
 });
 
 test('returns 2 with new value 2 and old snapshot 1', () => {
-  const result = appendNewValues(2, 1)
+  const result = appendNewValues(2, 1);
 
   expect(result).toEqual(2);
 });
@@ -15,7 +15,7 @@ test('returns 2 with new value 2 and old snapshot 1', () => {
 test('returns same memory array [1,2] with new value [1,2] and old snapshot [1,2]', () => {
   const oldValue = [1, 2];
   const newValue = [1, 2];
-  const result = appendNewValues(newValue, oldValue)
+  const result = appendNewValues(newValue, oldValue);
 
   expect(result).toEqual(newValue);
   expect(result === newValue).toBe(true);
@@ -24,7 +24,7 @@ test('returns same memory array [1,2] with new value [1,2] and old snapshot [1,2
 test('returns new memory array [1,2,3] with new value [1,2,3] and old snapshot [1,2]', () => {
   const oldValue = [1, 2];
   const newValue = [1, 2, 3];
-  const result = appendNewValues(newValue, oldValue)
+  const result = appendNewValues(newValue, oldValue);
 
   expect(result).toEqual(newValue);
   expect(result === newValue).toBe(false);
@@ -33,7 +33,7 @@ test('returns new memory array [1,2,3] with new value [1,2,3] and old snapshot [
 test('returns same memory object { foo: "bar" } with new value { foo: "bar" } and old snapshot { foo: "bar" }', () => {
   const oldValue = { foo: "bar" };
   const newValue = { foo: "bar" };
-  const result = appendNewValues(newValue, oldValue)
+  const result = appendNewValues(newValue, oldValue);
 
   expect(result).toEqual(newValue);
   expect(result === newValue).toBe(true);
@@ -42,7 +42,7 @@ test('returns same memory object { foo: "bar" } with new value { foo: "bar" } an
 test('returns new memory object { foo: "bar" } with new value { foo: "bar" } and old snapshot { foo: "baz" }', () => {
   const oldValue = { foo: "baz" };
   const newValue = { foo: "bar" };
-  const result = appendNewValues(newValue, oldValue)
+  const result = appendNewValues(newValue, oldValue);
 
   expect(result).toEqual(newValue);
   expect(result === newValue).toBe(false);
