@@ -1,4 +1,4 @@
-# Object-deep-replace
+# Object-deep-recreate
 
 This library compares inputs deeply and creates new memory references when a value or its children inside the input change, but makes sure not to create new memory references where unnecessary.
 
